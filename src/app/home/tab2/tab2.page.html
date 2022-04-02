@@ -1,11 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Historia Scan</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="none">
+    <ion-title>Historial</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" mode="ios" (click)="enviarCorreo()">
+        Enviar
+        <ion-icon slot="end" name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
 
-  <h1>Historial</h1>
+  <ion-list>
+    <ion-item *ngFor="let registro of dataLocalSvc.registros"
+              (click)="abrirRegistro( registro )"
+              detail >
+      <ion-icon color="primary" slot="start" [name]="registro.icon"></ion-icon>
+      <ion-label>
+        <h2>{{ registro.text }}</h2>
+        <p>{{ registro.created | date : 'medium'}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

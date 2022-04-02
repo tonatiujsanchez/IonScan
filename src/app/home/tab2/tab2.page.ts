@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataLocalService } from '../../services/data-local.service';
+import { Registro } from '../../models/registro.model';
 
 @Component({
   selector: 'app-tab2',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab2Page implements OnInit {
 
-  constructor() { }
+  constructor( public dataLocalSvc: DataLocalService ) { }
 
   ngOnInit() {
   }
 
+
+  enviarCorreo(){
+    console.log('Enviando...');
+  }
+
+
+  abrirRegistro( registro: Registro ){
+    this.dataLocalSvc.abrirRegitro( registro );
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-tab1',
@@ -13,7 +14,10 @@ export class Tab1Page implements OnInit {
     allowSlideNext: false
   }
 
-  constructor( private barcodeScanner: BarcodeScanner ) { }
+  constructor( 
+      private barcodeScanner: BarcodeScanner,
+      private dataLocalSvc: DataLocalService
+      ) { }
 
 
   // 1. Entrando por primera vez
@@ -43,15 +47,23 @@ export class Tab1Page implements OnInit {
   openScan(){
     this.barcodeScanner.scan().then(barcodeData => {
 
-      console.log('Barcode data cancelled:', barcodeData.cancelled );
-      console.log('Barcode data format:', barcodeData.format );
-      console.log('Barcode data text:', barcodeData.text );
-
+      if( !barcodeData.cancelled ){
+        this.dataLocalSvc.guardarRegistro( barcodeData.format, barcodeData.text )
+      }
+      
+      
      }).catch(err => {
 
          console.log('Error', err);
 
+         this.dataLocalSvc.guardarRegistro( 'QRCode', 'https://www.udemy.com/course/ionic-ios-android-pwa-appstore-playstore-push');     
+
      });
   }
+
+
+    
+  // TODO: QR-CODE
+  // https://www.qrcode.es/es/generador-qr-code/
 
 }
