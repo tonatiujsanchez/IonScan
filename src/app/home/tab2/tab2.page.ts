@@ -22,5 +22,8 @@ export class Tab2Page implements OnInit {
 
   abrirRegistro( registro: Registro ){
     this.dataLocalSvc.abrirRegitro( registro );
+
+    console.log( registro );
+    
   }
 }
