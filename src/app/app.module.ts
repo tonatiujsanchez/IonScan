@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { IonicStorageModule } from '@ionic/storage-angular';
+
 // Plugins
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { File } from '@awesome-cordova-plugins/file/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     BarcodeScanner,
     InAppBrowser,
-    File
+    File,
+    EmailComposer
   ],
   bootstrap: [
     AppComponent

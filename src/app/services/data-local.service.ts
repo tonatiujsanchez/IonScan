@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { Registro } from '../models/registro.model';
+
 import { Storage } from '@ionic/storage-angular';
+
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 
 
 
@@ -14,6 +17,7 @@ export class DataLocalService {
 
   private _storage: Storage | null = null;
   private keyStorage: string = '01042022-ion-scan';
+  private nombreCsv = 'registrosScan.csv';
 
   registros: Registro[] = [];
 
@@ -23,7 +27,8 @@ export class DataLocalService {
     private navCtrl: NavController,
     private platform: Platform,
     private iab: InAppBrowser,
-    private file: File
+    private file: File,
+    private emailComposer: EmailComposer
      ) {
     this.loadRegistros()
    }
@@ -134,14 +139,14 @@ export class DataLocalService {
 
   crearArchivoFisico( texto: string ){
     
-    this.file.checkFile( this.file.dataDirectory, 'registrosScan.csv' )
+    this.file.checkFile( this.file.dataDirectory, this.nombreCsv )
       .then( existeArchivo =>{
         console.log('existeArchivo?', existeArchivo);
         
         return this.actualizarArchivo( texto )
       })
       .catch( error =>{
-        return this.file.createFile( this.file.dataDirectory, 'registrosScan.csv', false )
+        return this.file.createFile( this.file.dataDirectory, this.nombreCsv, false )
           .then( creado => this.actualizarArchivo( texto ) )
           .catch( errorCreated => console.log( 'No se pudo crear el archivo', errorCreated ) )
       })
@@ -149,10 +154,29 @@ export class DataLocalService {
   }
 
   actualizarArchivo( texto ){
-     this.file.writeExistingFile( this.file.dataDirectory, 'registrosScan.csv', texto )
+     this.file.writeExistingFile( this.file.dataDirectory, this.nombreCsv, texto )
       .then( ()=>{
         console.log('Archivo creado exitosamente!');
-        console.log(this.file.dataDirectory + 'registrosScan.csv');
+
+        const archivo = this.file.dataDirectory + this.nombreCsv;
+        console.log(this.file.dataDirectory + this.nombreCsv);
+
+        // Eviar email
+        const email = {
+          to: 'ejemplo@correo.com',
+          // cc: 'erika@mustermann.de', // Correro respaldo
+          // bcc: ['john@doe.com', 'jane@doe.com'],
+          attachments: [
+            archivo
+          ],
+          subject: 'Respaldo de Scans',
+          body: 'Este es el respaldo de tus escaneos en  <strong>IonScan</strong>',
+          isHtml: true
+        };
+        
+        // Send a text message using default options
+        this.emailComposer.open(email);
+
       })
       .catch( error => console.log('Ups! hubo un error inesperado an tratar de crear el archivo', error) );
   }
