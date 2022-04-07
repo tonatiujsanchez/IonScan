@@ -56,8 +56,8 @@ export class Tab1Page implements OnInit {
 
          console.log('Error', err);
 
-        //  this.dataLocalSvc.guardarRegistro( 'QRCode', 'https://www.udemy.com/course/ionic-ios-android-pwa-appstore-playstore-push');     
-         this.dataLocalSvc.guardarRegistro( 'QRCode', 'geo:40.73151796986687,-74.06087294062502');     
+         this.dataLocalSvc.guardarRegistro( 'QRCode', 'https://www.udemy.com/course/ionic-ios-android-pwa-appstore-playstore-push');     
+        //  this.dataLocalSvc.guardarRegistro( 'QRCode', 'geo:40.73151796986687,-74.06087294062502');     
 
      });
   }

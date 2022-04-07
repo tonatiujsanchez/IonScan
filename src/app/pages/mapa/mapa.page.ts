@@ -19,17 +19,12 @@ export class MapaPage implements OnInit, AfterViewInit {
 
     this.activatedRoute.params.subscribe(
       ({ geo }) => {
-
         let geoCoords = geo;
         geoCoords = geo.substring(4);
         geoCoords = geoCoords.split(',');
 
         this.lat = Number(geoCoords[0]);
         this.lng = Number(geoCoords[1]);
-
-        console.log(this.lat);;
-        console.log(this.lng);;
-
       }
     )
 
@@ -38,8 +33,6 @@ export class MapaPage implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     
-    
-
     mapboxgl.accessToken = 'pk.eyJ1IjoidG9uYXRpdWpzYW5jaGV6IiwiYSI6ImNsMW54ZXMxNDB5MmwzbG1td2JxcjZvbmcifQ._AAPHRTHJv_FsfmwSX5fCw';
     const map = new mapboxgl.Map({
       style: 'mapbox://styles/mapbox/light-v10',
